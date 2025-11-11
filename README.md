@@ -2,113 +2,61 @@
 
 Repository: DrVanHelsing/MachineLearning
 
-Overview
+# MachineLearning
+Machine Learning basics implemented as three notebook assignments: Linear Regression, Logistic Regression, and Neural Networks.
 
-This repository collects machine learning experiments, models, and utilities developed for research and educational purposes. It includes data processing pipelines, model definitions, training and evaluation scripts, and example notebooks. The goal is to provide reproducible examples and easy-to-use building blocks for common ML tasks.
+This repository contains hands-on assignments that demonstrate foundational supervised learning algorithms. Each assignment is provided as a Jupyter Notebook in its respective folder. The notebooks are designed for learning and experimentation: you can read the theory notes inline, run the code cells, and tweak hyperparameters (learning rate, polynomial degree, number of hidden units, etc.) to see the effect.
 
-Contents
+## Projects
 
-- data/ - dataset downloaders and preprocessing scripts.
-- notebooks/ - Jupyter notebooks demonstrating experiments and visualizations.
-- src/ - source code for models, training, and utilities.
-- models/ - trained model checkpoints (not always committed due to size).
-- scripts/ - command-line scripts to run training, evaluation, and preprocessing.
-- configs/ - YAML configuration files for experiments and hyperparameters.
-- tests/ - unit and integration tests.
-- README.md - this file.
+- Linear Regression
+	- Path: `Linear Regression/CSC312 - Assignment 1 - Linear Regression.ipynb`
+	- Purpose: Introduce linear regression for regression tasks. The notebook implements hypothesis functions, cost (mean squared error), gradient descent, and (where applicable) closed-form solutions. It shows feature engineering such as polynomial feature expansion and feature normalization.
+	- What you'll find: data loading and visualization, implementation of the cost function, parameter updates via gradient descent, plots of fitted curves, and experiments with learning rates and polynomial degrees to illustrate underfitting/overfitting.
+	- Inputs / outputs: Input — tabular dataset(s) included in the notebook cells (or generated synthetically). Output — trained parameter vector (theta), plots of predictions vs. ground truth, and training loss curves.
 
-Quick Start
+- Logistic Regression
+	- Path: `Logistic Regression/CSC312 - Assignment 2 - Logistic Regression.ipynb`
+	- Purpose: Teach binary classification using logistic regression. The notebook implements the sigmoid activation, logistic cost (cross-entropy), gradient descent optimization, and visualization of the decision boundary.
+	- What you'll find: data visualization for separable and non-separable examples, implementation of the logistic cost and gradient, training loop with accuracy reporting, and optional regularization to control overfitting.
+	- Inputs / outputs: Input — labeled 2D classification dataset(s) (or synthetic examples). Output — trained weights, classification decision boundary plots, confusion/accuracy metrics, and examples of regularization effects.
 
-Prerequisites
+- Neural Networks
+	- Path: `Neural Networks/CSC312 - Assignment 3 - Neural Networks.ipynb`
+	- Purpose: Introduce feedforward neural networks and backpropagation for multi-layer models and multi-class classification.
+	- What you'll find: forward propagation, cost (cross-entropy for classification), backpropagation to compute gradients, weight initialization, and an optimization loop (batch or mini-batch gradient descent). The notebook typically includes exercises to vary the number of hidden units, learning rates, and see how these choices affect training.
+	- Inputs / outputs: Input — dataset for classification (features and labels). Output — trained network weights, training and validation accuracy/loss plots, and sample predictions.
 
-- Python 3.8+
-- pip or conda
-- Recommended: virtual environment or conda environment
+## How to run the notebooks
 
-Install dependencies
+1. Install requirements (a minimal list that should cover the notebooks):
 
-```bash
-python -m venv .venv
-source .venv/bin/activate   # Linux / macOS
-.\venv\Scripts\activate     # Windows PowerShell
-python -m pip install -r requirements.txt
+```powershell
+python -m pip install --upgrade pip
+pip install jupyterlab notebook numpy scipy matplotlib pandas scikit-learn
 ```
 
-Prepare data (example using the provided downloader):
+2. Start Jupyter from the repository root and open the notebook you want:
 
-```bash
-python scripts/download_data.py --dataset mnist --out data/mnist
-python scripts/preprocess.py --input data/mnist --output data/processed/mnist
+```powershell
+jupyter lab
+# or
+jupyter notebook
 ```
 
-Run a training example
+3. Run cells in order. Each notebook contains inline explanations and visualization cells. If a notebook expects local data files, the dataset will be either generated inside the notebook or placed alongside the notebook in the same folder.
 
-```bash
-python src/train.py --config configs/default.yaml --data data/processed/mnist --output experiments/run001
-```
+## Experimentation tips
+- Try different learning rates and plot the loss curve to observe convergence or divergence.
+- For linear regression, experiment with polynomial feature degrees and compare training vs validation error to see under/overfitting.
+- For logistic regression and neural networks, try L2 regularization and different network sizes to observe generalization behavior.
 
-Evaluate a checkpoint
+## Files of interest
+- `Linear Regression/CSC312 - Assignment 1 - Linear Regression.ipynb` — linear regression assignment and experiments.
+- `Logistic Regression/CSC312 - Assignment 2 - Logistic Regression.ipynb` — logistic regression assignment and experiments.
+- `Neural Networks/CSC312 - Assignment 3 - Neural Networks.ipynb` — neural network implementation with forward/backprop and training.
 
-```bash
-python src/eval.py --checkpoint experiments/run001/checkpoint.pt --data data/processed/mnist
-```
+## Notes
+- The notebooks are intended for education and experimentation; they're self-contained and annotated with equations and plots to connect the math to the code.
+- If you want, I can: add a `requirements.txt`, extract reusable Python modules from the notebooks, or add short example scripts to run training from the command line.
 
-Project Structure (detailed)
-
-- data/: scripts and small samples for dataset fetching and preprocessing. Do NOT commit large raw datasets.
-- docs/: optional documentation and design notes.
-- notebooks/: interactive analyses and reproducible experiments (e.g., notebooks/mnist_classification.ipynb).
-- src/: modular codebase organized roughly as:
-  - src/models/: model definitions (PyTorch / TensorFlow)
-  - src/train.py: training loop and logging
-  - src/eval.py: evaluation and metrics reporting
-  - src/utils/: helper functions for IO, metrics, and visualization
-- scripts/: convenience CLI wrappers for common tasks (download, preprocess, train, eval)
-- configs/: YAML config files for experiments and hyperparameters
-- tests/: unit tests for core utilities and smoke tests for training pipeline
-
-Coding Conventions
-
-- Follow PEP8 for Python code.
-- Use type hints where helpful; run mypy if provided.
-- Write tests for new features and ensure CI passes.
-
-Configurations and Reproducibility
-
-- configs/ contains base configs. Override values via command line or environment variables.
-- Use deterministic seeds in experiments: set random seed in src/utils/seed.py.
-- Logging: training logs and metrics are written to the experiment output directory. Use TensorBoard or Weights & Biases if configured.
-
-Best Practices for Large Files
-
-- Large artifacts (datasets, large model checkpoints) should be stored externally (S3, Zenodo, GCS, etc.) and not committed to the repo.
-- Consider using Git LFS for large binary artifacts that must be stored in the repo.
-
-Contributing
-
-Contributions are welcome. Please follow these steps:
-
-1. Fork the repository.
-2. Create a feature branch: git checkout -b feature/my-feature
-3. Implement tests and ensure they pass.
-4. Open a pull request with a clear description.
-
-Please adhere to the code of conduct in CODE_OF_CONDUCT.md if present.
-
-Licensing
-
-This project is typically provided under the MIT License — see LICENSE for details. If no license is present, contact the repository owner.
-
-Contact
-
-For questions, open an issue or contact the maintainer: DrVanHelsing (GitHub).
-
-Examples and Recipes
-
-- See notebooks/mnist_classification.ipynb for a full runnable example.
-- Common commands: training, evaluation, and preprocessing are shown under Quick Start.
-
-Notes
-
-- Use deterministic seeds for reproducibility and log hyperparameters for each run.
-- If you want badges (CI, coverage, license) or links to live demos, tell me which services and I will add them.
